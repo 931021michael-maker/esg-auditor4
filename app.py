@@ -266,7 +266,7 @@ if start_btn:
                 【⚠️ 重要排版與輸出結構要求 - 請嚴格遵守】：
                 1. 報告的「最開頭第一段」必須是【一、 總體評估摘要與評分】，請直接排在最前面。
                    此區塊內必須清楚包含以下項目：
-                   ・綜合結論：（請用一到兩句話對整份計畫書進行定調短評）
+                   ・綜合結論：（請撰寫一段約 100~200 字的詳盡摘要，說明該企劃書的核心優勢、最重大的風險或缺失，以及企業整體的永續成熟度定調）
                    ・環境（E）評分：X分 / 5分
                    ・社會（S）評分：X分 / 5分（若因核心底線觸發不合格，請註明直接判定不及格）
                    ・治理（G）評分：X分 / 5分
@@ -341,8 +341,8 @@ if 'audit_report' in st.session_state:
             
         st.markdown("<br>", unsafe_allow_html=True)
         st.markdown("#### 📝 綜合結論摘要")
-        # 萃取綜合結論部分
-        summary_match = re.search(r'綜合結論：(.*?)(?=\n|・)', report_text)
+        # 萃取綜合結論部分 (支援多行提取，直到遇到下一個評分標題或段落)
+        summary_match = re.search(r'綜合結論：(.*?)(?=・環境|環境（E）|環境\(E\)|二、)', report_text, re.DOTALL)
         summary_text = summary_match.group(1).strip() if summary_match else "請參閱詳細審查內容。"
         st.info(summary_text)
 
@@ -361,7 +361,13 @@ if 'audit_report' in st.session_state:
                     st.markdown(f"<h4 style='color: #1E3A8A; margin-top: 1.5rem;'>{line}</h4>", unsafe_allow_html=True)
                     st.divider()
                 elif "評分：" in line or "分 / 5分" in line or "綜合結論：" in line:
-                    continue # 已經在 Tab 1 顯示過了，這裡可略過以保持乾淨
+                    # 讓這些重要資訊在詳細報告區也顯示出來，並加上對應顏色
+                    if "1分" in line or "不及格" in line or "不合格" in line:
+                        st.markdown(f"<div style='color: #DC2626; font-weight: bold;'>{line}</div>", unsafe_allow_html=True)
+                    elif "2分" in line or "需重大改善" in line:
+                        st.markdown(f"<div style='color: #D97706; font-weight: bold;'>{line}</div>", unsafe_allow_html=True)
+                    else:
+                        st.markdown(f"<div style='color: #059669; font-weight: bold;'>{line}</div>", unsafe_allow_html=True)
                 elif line.startswith("優點"):
                     st.markdown(f"<div style='color: #047857; font-weight: 600; padding: 4px 0;'>✅ {line}</div>", unsafe_allow_html=True)
                 elif line.startswith("缺失"):
