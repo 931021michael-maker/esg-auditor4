@@ -90,9 +90,9 @@ with st.sidebar:
     st.markdown("### 📋 內建查核引擎標準")
     st.info("""
     **核心對標框架：**
-    - 🌿 **GRI** 永續性報導準則
-    - 🌍 **SDGs** 聯合國永續發展目標
-    - 🤝 **SA8000** 社會責任標準
+    - 🌿 **GRI** 永續性報導準則(必要)
+    - 🌍 **SDGs** 聯合國永續發展目標(加分項)
+    - 🤝 **SA8000** 社會責任標準(加分項)
     - 🛡️ **Anti-Greenwashing** 反漂綠檢核
     """)
     
@@ -207,7 +207,7 @@ st.markdown("""
     <div style="padding: 2rem 0 1.5rem 0;">
         <h1 style="color: #1E3A8A; font-size: 2.8rem; font-weight: 800; margin-bottom: 0.5rem;">🌿 TruESG 永續智審平台</h1>
         <p style="font-size: 1.2rem; color: #4B5563; max-width: 800px;">
-            交由第三方 AI 智能查核：一鍵上傳 ESG 文件，即刻獲取最嚴格的防漂綠與合規性分析。
+            交由第三方 AI 智能查核：一鍵上傳永續報告書，即刻獲取最嚴格的防漂綠與合規性分析。
         </p>
     </div>
 """, unsafe_allow_html=True)
@@ -218,7 +218,7 @@ upload_col, guide_col = st.columns([1.2, 1], gap="large")
 with upload_col:
     st.markdown("### 📂 啟動審核程序")
     with st.container(border=True):
-        uploaded_file = st.file_uploader("上傳您的 ESG 報告或企劃書 (支援 PDF，上限 30MB)", type="pdf")
+        uploaded_file = st.file_uploader("上傳您的永續報告書 (支援 PDF，建議上限 30MB)", type="pdf")
         
         st.markdown("<br>", unsafe_allow_html=True)
         start_btn = st.button("🚀 開始進行智能嚴格審核", use_container_width=True, type="primary")
